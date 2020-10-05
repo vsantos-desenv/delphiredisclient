@@ -824,9 +824,9 @@ type
   end;
 
   // Rename classes because RTL classes have the same name
-  TJDOJsonBaseObject = TJsonBaseObject;
-  TJDOJsonObject = TJsonObject;
-  TJDOJsonArray = TJsonArray;
+  TDDOJsonBaseObject = TJsonBaseObject;
+  TDDOJsonObject = TJsonObject;
+  TDDOJsonArray = TJsonArray;
 
 var
   JsonSerializationConfig: TJsonSerializationConfig = ( // not thread-safe
