@@ -59,7 +59,7 @@ type
 
   TRedisMatrix = TRedisNullable<TArray<TRedisArray>>;
 
-  TRedisRESPArray = TJDOJsonArray;
+  TRedisRESPArray = TDDOJsonArray;
 
 type
   TRedisStringHelper = record helper for TRedisString
