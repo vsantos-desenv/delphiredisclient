@@ -1,28 +1,3 @@
-// *************************************************************************** }
-//
-// Delphi REDIS Client
-//
-// Copyright (c) 2015-2017 Daniele Teti
-//
-// https://github.com/danieleteti/delphiredisclient
-//
-// ***************************************************************************
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-//
-// ***************************************************************************
-
-
 unit Redis.NetLib.INDY;
 
 interface
@@ -38,7 +13,7 @@ type
     constructor Create; override;
     destructor Destroy; override;
     { ===IRedisTCPLib=== }
-    procedure Connect(const HostName: string; const Port: Word); override;
+    procedure Connect(const HostName: string; const Port: Word; const AUseSSL: Boolean = False); override;
     procedure Disconnect; override;
     function Receive(const Timeout: Int32): string; override;
     function ReceiveBytes(const ACount: Int64; const Timeout: Int32)
@@ -55,12 +30,19 @@ type
 implementation
 
 uses
-  System.SysUtils, idGlobal, IdIOHandler;
+  System.SysUtils, idGlobal, IdIOHandler, IdSSLOpenSSL;
 
 { TRedisTCPLibINDY }
 
-procedure TRedisTCPLibINDY.Connect(const HostName: string; const Port: Word);
+procedure TRedisTCPLibINDY.Connect(const HostName: string; const Port: Word; const AUseSSL: Boolean);
 begin
+  if AUseSSL then
+  begin
+    FTCPClient.IOHandler := TIdSSLIOHandlerSocketOpenSSL.Create(FTCPClient);
+    (FTCPClient.IOHandler as TIdSSLIOHandlerSocketOpenSSL).PassThrough := False;
+    (FTCPClient.IOHandler as TIdSSLIOHandlerSocketOpenSSL).SSLOptions.SSLVersions := [sslvTLSv1_2]
+  end;
+
   FTCPClient.Connect(HostName, Port);
   FTCPClient.IOHandler.MaxLineLength := IdMaxLineLengthDefault * 1000;
 end;
