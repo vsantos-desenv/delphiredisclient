@@ -120,6 +120,7 @@ type
     function SREM(const AKey, AValue: TBytes): Integer; overload;
     function SREM(const AKey, AValue: string): Integer; overload;
     function SMEMBERS(const AKey: string): TArray<string>;
+    function SISMEMBER(const aKey, aValue: String): Integer; overload;
     function SCARD(const AKey: string): Integer;
 
     // ordered sets
@@ -1074,6 +1075,11 @@ begin
   FNextCMD := GetCmdList('SETRANGE').Add(AKey).Add(AOffset).Add(AValue);
   FTCPLibInstance.SendCmd(FNextCMD);
   Result := ParseIntegerResponse(FIsValidResponse);
+end;
+
+function TRedisClient.SISMEMBER(const aKey, aValue: String): Integer;
+begin
+  raise Exception.Create('not implemented');
 end;
 
 function TRedisClient.SMEMBERS(const AKey: string): TArray<string>;

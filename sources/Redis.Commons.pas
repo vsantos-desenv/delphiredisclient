@@ -102,6 +102,7 @@ type
     function SREM(const AKey, AValue: TBytes): Integer; overload;
     function SREM(const AKey, AValue: string): Integer; overload;
     function SMEMBERS(const AKey: string): TArray<string>;
+    function SISMEMBER(const aKey, aValue: String): Integer; overload;
     function SCARD(const AKey: string): Integer;
 
     // ordered sets
